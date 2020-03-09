@@ -7,15 +7,15 @@ variable "secret_key" {
 }
 
 variable "region" {
-  default = "eu-central-1"
+  default = "us-east-1"
 }
 
 variable "az1" {
-  default = "eu-central-1a"
+  default = "us-east-1a"
 }
 
 variable "az2" {
-  default = "eu-central-1b"
+  default = "us-east-1b"
 }
 
 variable "scenario" {

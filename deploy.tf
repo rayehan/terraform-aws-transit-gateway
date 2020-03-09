@@ -408,12 +408,12 @@ resource "aws_ec2_transit_gateway_route_table_propagation" "tgw-rt-prod-to-vpc-3
 #########################
 
 # Key Pair
-
+/*
 resource "aws_key_pair" "test-tgw-keypair" {
   key_name   = "test-tgw-keypair"
   public_key = "${var.public_key}"
 }
-
+*/
 # Security Groups
 ## Need to create 4 of them as our Security Groups are linked to a VPC
 
@@ -597,7 +597,7 @@ resource "aws_instance" "test-tgw-instance1-dev" {
   instance_type               = "t2.micro"
   subnet_id                   = "${aws_subnet.vpc-1-sub-a.id}"
   vpc_security_group_ids     = [ "${aws_security_group.sec-group-vpc-1-ssh-icmp.id}" ]
-  key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
+  #key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
   private_ip                  = "10.10.1.10"
 
   tags = {
@@ -614,7 +614,7 @@ resource "aws_instance" "test-tgw-instance2-dev" {
   instance_type               = "t2.micro"
   subnet_id                   = "${aws_subnet.vpc-2-sub-a.id}"
   vpc_security_group_ids     = [ "${aws_security_group.sec-group-vpc-2-ssh-icmp.id}" ]
-  key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
+  #key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
   private_ip                  = "10.11.1.10"
 
   tags = {
@@ -631,7 +631,7 @@ resource "aws_instance" "test-tgw-instance3-shared" {
   instance_type               = "t2.micro"
   subnet_id                   = "${aws_subnet.vpc-3-sub-a.id}"
   vpc_security_group_ids     = [ "${aws_security_group.sec-group-vpc-3-ssh-icmp.id}" ]
-  key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
+  #key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
   private_ip                  = "10.12.1.10"
   associate_public_ip_address = true
 
@@ -649,7 +649,7 @@ resource "aws_instance" "test-tgw-instance4-prod" {
   instance_type               = "t2.micro"
   subnet_id                   = "${aws_subnet.vpc-4-sub-a.id}"
   vpc_security_group_ids     = [ "${aws_security_group.sec-group-vpc-4-ssh-icmp.id}" ]
-  key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
+  #key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
   private_ip                  = "10.13.1.10"
 
   tags = {
