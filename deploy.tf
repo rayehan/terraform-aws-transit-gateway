@@ -413,9 +413,10 @@ resource "aws_ec2_transit_gateway_route_table_propagation" "tgw-rt-prod-to-vpc-3
 
 # Key Pair
 /*
-resource "aws_key_pair" "test-tgw-keypair" {
-  key_name   = "test-tgw-keypair"
-  public_key = "${var.public_key}"
+resource "aws_key_pair" "SMMS" {
+  key_name   = "SMMS"
+  #public_key = "${var.public_key}"
+  public_key = file(var.public_key)
 }
 */
 # Security Groups
@@ -569,7 +570,7 @@ resource "aws_security_group" "sec-group-vpc-4-ssh-icmp" {
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -606,32 +607,18 @@ resource "aws_security_group" "sec-group-vpc-4-ssh-icmp" {
 
 # VMs
 
-## Fetching AMI info
-/*
-data "aws_ami" "ubuntu" {
-  most_recent = true
 
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-*/
 resource "aws_instance" "test-tgw-instance1-dev" {
   #ami                         = "${data.aws_ami.ubuntu.id}"
   ami                         = "ami-3c002c5d"
   instance_type               = "t2.micro"
   subnet_id                   = "${aws_subnet.vpc-1-sub-a.id}"
-  vpc_security_group_ids     = [ "${aws_security_group.sec-group-vpc-1-ssh-icmp.id}" ]
+  vpc_security_group_ids      = [ "${aws_security_group.sec-group-vpc-1-ssh-icmp.id}" ]
   #key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
-  private_ip                  = "10.10.1.10"
+  #key_name                    = "${aws_key_pair.SMMS.key_name}"
+  key_name                    = "SMMS-key"
+  #private_ip                  = "10.10.1.10"
+  #get_password_data            = "true"
 
   tags = {
     Name = "test-tgw-instance1-dev"
@@ -649,7 +636,10 @@ resource "aws_instance" "test-tgw-instance2-dev" {
   subnet_id                   = "${aws_subnet.vpc-2-sub-a.id}"
   vpc_security_group_ids     = [ "${aws_security_group.sec-group-vpc-2-ssh-icmp.id}" ]
   #key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
-  private_ip                  = "10.11.1.10"
+  #key_name                    = "${aws_key_pair.SMMS.key_name}"
+  key_name                    = "SMMS-key"
+  #private_ip                  = "10.11.1.10"
+  #get_password_data            = "true"
 
   tags = {
     Name = "test-tgw-instance2-dev"
@@ -667,8 +657,11 @@ resource "aws_instance" "test-tgw-instance3-shared" {
   subnet_id                   = "${aws_subnet.vpc-3-sub-a.id}"
   vpc_security_group_ids     = [ "${aws_security_group.sec-group-vpc-3-ssh-icmp.id}" ]
   #key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
-  private_ip                  = "10.12.1.10"
+  #key_name                    = "${aws_key_pair.SMMS.key_name}"
+  key_name                    = "SMMS-key"
+  #private_ip                  = "10.12.1.10"
   associate_public_ip_address = true
+  get_password_data            = "true"
 
   tags = {
     Name = "test-tgw-instance3-shared"
@@ -686,7 +679,10 @@ resource "aws_instance" "test-tgw-instance4-prod" {
   subnet_id                   = "${aws_subnet.vpc-4-sub-a.id}"
   vpc_security_group_ids     = [ "${aws_security_group.sec-group-vpc-4-ssh-icmp.id}" ]
   #key_name                    = "${aws_key_pair.test-tgw-keypair.key_name}"
-  private_ip                  = "10.13.1.10"
+  #key_name                    = "${aws_key_pair.SMMS.key_name}"
+   key_name                    = "SMMS-key"
+  #private_ip                  = "10.13.1.10"
+  get_password_data            = "true"
 
   tags = {
     Name = "test-tgw-instance4-prod"
